@@ -47,7 +47,7 @@ jobs:
     - task: verify
       file: git-repo/ci/tasks/verify-test.yml
       params:
-        CONCOURSE_DEMO_URL: {{VERIFY_URL}}
+        CONCOURSE_DEMO_URL: ((verify_url))
 
   - name: promote-to-uat
     serial_groups: [version]
@@ -116,61 +116,61 @@ resources:
 - name: git-repo
   type: git
   source:
-    uri: {{GIT_REPO}}
+    uri: ((git_repo))
     branch: master
-    private_key: {{GIT_PRIVATE_KEY}}
+    private_key: ((git_private_key))
 
 - name: deploy-test-app
   type: cf
   source:
-    api: {{CF_API}}
-    username: {{CF_USER}}
-    password: {{CF_PASS}}
-    organization: {{CF_TEST_ORG}}
-    space: {{CF_TEST_SPACE}}
+    api: ((cf_api))
+    username: ((cf_user))
+    password: ((cf_pass))
+    organization: ((cf_test_org))
+    space: ((cf_test_space))
     skip_cert_check: true
 
 - name: deploy-uat-app
   type: cf
   source:
-    api: {{CF_API}}
-    username: {{CF_USER}}
-    password: {{CF_PASS}}
-    organization: {{CF_UAT_ORG}}
-    space: {{CF_UAT_SPACE}}
+    api: ((cf_api))
+    username: ((cf_user))
+    password: ((cf_pass))
+    organization: ((cf_uat_org))
+    space: ((cf_uat_space))
     skip_cert_check: true
 
 - name: deploy-production-app
   type: cf
   source:
-    api: {{CF_API}}
-    username: {{CF_USER}}
-    password: {{CF_PASS}}
-    organization: {{CF_PROD_ORG}}
-    space: {{CF_PROD_SPACE}}
+    api: ((cf_api))
+    username: ((cf_user))
+    password: ((cf_pass))
+    organization: ((cf_prod_org))
+    space: ((cf_prod_space))
     skip_cert_check: true
 
 - name: version
   type: semver
   source:
-    bucket: {{S3_BUCKET}}
-    key: {{S3_VERSION_FILE}}
-    access_key_id: {{S3_ACCESS_KEY_ID}}
-    secret_access_key: {{S3_SECRET_ACCESS_KEY}}
+    bucket: ((s3_bucket))
+    key: ((s3_version_file))
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
     initial_version: 1.0.0
 
 - name: release-candidate
   type: s3
   source:
-    bucket: {{S3_BUCKET}}
-    regexp: {{S3_PIPELINE_ARTIFACTS}}
-    access_key_id: {{S3_ACCESS_KEY_ID}}
-    secret_access_key: {{S3_SECRET_ACCESS_KEY}}
+    bucket: ((s3_bucket))
+    regexp: ((s3_pipeline_artifacts))
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
 
 - name: production-release
   type: s3
   source:
-    bucket: {{S3_BUCKET}}
-    regexp: {{S3_DEPLOYMENTS}}
-    access_key_id: {{S3_ACCESS_KEY_ID}}
-    secret_access_key: {{S3_SECRET_ACCESS_KEY}}
+    bucket: ((s3_bucket))
+    regexp: ((s3_deployments))
+    access_key_id: ((s3_access_key_id))
+    secret_access_key: ((s3_secret_access_key))
